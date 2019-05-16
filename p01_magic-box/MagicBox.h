@@ -5,108 +5,63 @@
 #ifndef P01_MAGIC_BOX_MAGICBOX_H
 #define P01_MAGIC_BOX_MAGICBOX_H
 
-template <class T>
+#include <iostream>
+#include <cstdlib>
+#include <stdexcept>
+#include "MyArray.h"
+
+template<typename T>
 class MagicBox {
+
 public:
-    MagicBox(int); // constructor with initial capacity
+    MagicBox();
 
-    MagicBox() : MagicBox(DEFAULT_CAPACITY) {}; // default constructor
+    MagicBox(const MagicBox& copy);
 
-    ~MagicBox(); // destructor
+    ~MagicBox();
 
-    void insert(const T&);
+    void insert(const T& item);
 
     void pop();
 
-    void list(std::ostream&) const;
-
-    int getSize() const;
-
-    bool empty() const;
-
-    bool full() const;
-
-    int getCapacity() const;
+    void list() const;
 
 private:
-
-    static const int DEFAULT_CAPACITY = 2;
-    T* arr;
-    int size;
-    int capacity;
-    void doubleCapacity();
-
+    MyArray<T> *box;
 };
 
-
-template <class T>
-MagicBox<T>::MagicBox(int initialCapacity) {
-    capacity = initialCapacity;
-    arr = new T[capacity];
-    size = 0;
+template<typename T>
+MagicBox<T>::MagicBox() {
+    box = new MyArray<T>();
 }
 
-template <class T>
+template<typename T>
 MagicBox<T>::~MagicBox() {
-    delete[] arr;
+    delete box;
 }
 
-template <class T>
-void MagicBox<T>::insert(const T& item) {
-    if (full()) {
-        doubleCapacity();
-    }
-    arr[size++] = item;
+template<typename T>
+MagicBox<T>::MagicBox(const MagicBox &copy) {
+    box = new MyArray<T>(copy.box);
 }
 
-template <class T>
+template<typename T>
+void MagicBox<T>::insert(const T &item) {
+    box->push_back(item);
+}
+
+template<typename T>
 void MagicBox<T>::pop() {
-    if (empty()) {
-        std::cerr << "The box is empty!" << std::endl;
-    } else {
-        size--;
+    //generate random integer in range [0, box->get_size() - 1]
+    unsigned int random_int = rand() % box->get_size();
+    box->pop_at_ind(rand() % (box->get_size()));
+}
+
+template<typename T>
+void MagicBox<T>::list() const {
+    for (int i = 0; i < box->get_size(); i++) {
+        std::cout << (*box)[i] << std::endl;
     }
-}
-
-template<class T>
-void MagicBox<T>::list(std::ostream& os) const {
-    for (int i = 0; i < size; i++) {
-        os << arr[i] << std::endl;
-    }
-}
-
-template<class T>
-bool MagicBox<T>::empty() const {
-    return size == 0;
-}
-
-template<class T>
-bool MagicBox<T>::full() const {
-    return size == capacity;
-}
-
-template<class T>
-void MagicBox<T>::doubleCapacity() {
-    int newCapacity = capacity * 2;
-    T* doubledArr = new T[newCapacity];
-
-    for (int i = 0; i < capacity; i++) {
-        doubledArr[i] = arr[i];
-    }
-    delete[] arr;
-    arr = doubledArr;
-    capacity = newCapacity;
-    std::cout << "Capacity is doubled" << std::endl;
-}
-
-template<class T>
-int MagicBox<T>::getSize() const {
-    return size;
-}
-
-template<class T>
-int MagicBox<T>::getCapacity() const {
-    return capacity;
 }
 
 #endif //P01_MAGIC_BOX_MAGICBOX_H
