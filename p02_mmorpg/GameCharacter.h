@@ -1,5 +1,5 @@
 //
-// Created by zvezdomirov98 on 12.05.19.
+// Created by zvezdomirov98 on 16.05.19.
 //
 
 #ifndef P02_MMORPG_GAMECHARACTER_H
@@ -8,9 +8,11 @@
 class GameCharacter {
 
 public:
-    void getAttacked(int);
+    void getAttacked(int opponent_ap);
 
-    char *getName() const;
+    char* getName() const;
+
+    void setName(const char *name);
 
     int getHp() const;
 
@@ -21,46 +23,18 @@ public:
     int getDp() const;
 
 protected:
-    GameCharacter(char *name, int hp, int mp, int ap, int dp);
+    char *m_name;
+    int m_hp;
+    int m_mp;
+    int m_ap;
+    int m_dp;
 
-private:
-    char *name;
-    int hp;
-    int mp;
-    int ap;
-    int dp;
+    explicit GameCharacter(const char *m_name, int m_hp = 0,
+                  int m_mp = 0, int m_ap = 0, int m_dp = 0);
+
+    GameCharacter(const GameCharacter &);
+
+    ~GameCharacter();
 };
-
-void GameCharacter::getAttacked(int opponentAP) {
-    if (opponentAP - dp < 0) {
-        return;
-    }
-    hp -= (opponentAP - dp);
-}
-
-GameCharacter::GameCharacter(
-        char *name, int hp,
-        int mp, int ap, int dp)
-        : name(name), hp(hp), mp(mp), ap(ap), dp(dp) {}
-
-char *GameCharacter::getName() const {
-    return name;
-}
-
-int GameCharacter::getHp() const {
-    return hp;
-}
-
-int GameCharacter::getMp() const {
-    return mp;
-}
-
-int GameCharacter::getAp() const {
-    return ap;
-}
-
-int GameCharacter::getDp() const {
-    return dp;
-}
 
 #endif //P02_MMORPG_GAMECHARACTER_H

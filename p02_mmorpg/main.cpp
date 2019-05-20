@@ -1,20 +1,27 @@
 #include <iostream>
-#include "GameCharacter.h"
+#include <assert.h>
 #include "Warrior.h"
 #include "Guardian.h"
-#include "Wizzard.h"
-#include <assert.h>
+#include "Wizard.h"
+#include <cstring>
 
 int main() {
+
     Warrior warrior;
     Guardian guardian;
-    Wizzard wizzard;
-    std::cout << warrior.getName() << std::endl;
-    std::cout << guardian.getName() << std::endl;
-    std::cout << wizzard.getName() << std::endl;
+    Wizard wizard;
+    Warrior copyWarrior = warrior;
 
+    //Test the getAttacked() method
     assert(warrior.getHp() == 20);
-    warrior.getAttacked(wizzard.getAp());
-    assert(warrior.getHp() == 19); //20hp - (2ap - 1dp) = 19hp
+    warrior.getAttacked(5);
+    assert(warrior.getHp() == 16);
+
+    //Test the getName() method
+    assert(strcmp(guardian.getName(), "Guardian") == 0);
+
+    //Test the copy constructor at compile time
+    static_assert(&warrior != &copyWarrior,
+            "Copy constructor copies just the address!");
     return 0;
 }

@@ -1,5 +1,5 @@
 //
-// Created by zvezdomirov98 on 12.05.19.
+// Created by zvezdomirov98 on 16.05.19.
 //
 
 #ifndef P02_MMORPG_WARRIOR_H
@@ -9,8 +9,8 @@
 
 class Warrior : public GameCharacter {
 public:
-    Warrior() :
-    GameCharacter("Warrior", 20, 5, 4, 1) {}
+    Warrior()
+            : GameCharacter("Warrior", 20, 5, 4, 1) {};
 };
 
 #endif //P02_MMORPG_WARRIOR_H
