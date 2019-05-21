@@ -1,49 +1,31 @@
 //
-// Created by zvezdomirov98 on 12.05.19.
+// Created by zvezdomirov98 on 17.05.19.
 //
 
-#ifndef PO3_LOGIN_SYSTEM_POWERUSER_H
-#define PO3_LOGIN_SYSTEM_POWERUSER_H
+#ifndef P03_LOGIN_SYSTEM_POWERUSER_H
+#define P03_LOGIN_SYSTEM_POWERUSER_H
+
 
 #include "User.h"
 
-class PowerUser : public User {
+class PowerUser : public virtual User {
+
 public:
-    PowerUser(char *ipAddress, char *username, char *password, char *title, int reputation);
+    PowerUser(const char *ip_address = DEFAULT_IP,
+              const char *username = "",
+              const char *password = "",
+              const char *title = "",
+              int reputation = 0) :
+            User(ip_address, username, password, title),
+            m_reputation(reputation) {};
+
+    void gainReputation(const User &contributor);
 
     int getReputation() const;
 
 private:
-    int reputation;
-
-    void increaseReputation(const User &contributor);
-
-protected:
-    void setTitle(char *title) override;
+    int m_reputation;
 };
 
-PowerUser::PowerUser(char *ipAddress, char *username,
-                     char *password, char *title, int reputation) :
-        User(ipAddress,
-             username,
-             password,
-             title),
-             reputation(0){}
 
-void PowerUser::setTitle(char *_title) {
-    title = _title;
-}
-
-int PowerUser::getReputation() const {
-    return reputation;
-}
-
-void PowerUser::increaseReputation(const User &contributor) {
-    if (!strEquals(this->getUsername(), contributor.getUsername())) {
-        reputation++;
-    } else {
-        std::cerr << "Self-contributing is not allowed!\n";
-    }
-}
-
-#endif //PO3_LOGIN_SYSTEM_POWERUSER_H
+#endif //P03_LOGIN_SYSTEM_POWERUSER_H

@@ -1,16 +1,35 @@
 //
-// Created by zvezdomirov98 on 12.05.19.
+// Created by zvezdomirov98 on 17.05.19.
 //
 
-#ifndef PO3_LOGIN_SYSTEM_USER_H
-#define PO3_LOGIN_SYSTEM_USER_H
+#ifndef P03_LOGIN_SYSTEM_USER_H
+#define P03_LOGIN_SYSTEM_USER_H
 
-#include <iostream>
+
 #include "Guest.h"
 
 class User : public Guest {
+
 public:
-    User(char *ipAddress, char *username, char *password, char *title);
+    User(const char *ip_address = DEFAULT_IP,
+         const char *username = "",
+         const char *password = "",
+         const char *title = "") :
+            Guest(ip_address) {
+
+        m_username = nullptr;
+        m_password = nullptr;
+        m_title = nullptr;
+        setUsername(username);
+        setPassword(password);
+        setTitle(title);
+    };
+
+    User(const User &); //copy constructor
+
+    User &operator=(const User &rhs);
+
+    ~User() override;
 
     char *getUsername() const;
 
@@ -18,70 +37,25 @@ public:
 
     char *getTitle() const;
 
-protected:
-
-    void changePassword(char *oldPass, char *newPass);
-
-    char * encryptDecrypt(char *toEncrypt) const;
-
-    bool strEquals(char *str1, char *str2);
-
-    virtual void setTitle(char* title);
-
-    char* username;
-    char* password;
-    char* title;
+    void changePassword(const char *old_pass,
+                        const char *new_pass);
 
     friend class Admin;
+
+protected:
+
+    char *m_username;
+    char *m_password;
+    char *m_title;
+
+    void setTitle(const char *title);
+
+    void setPassword(const char *password);
+
+    char* encryptDecrypt(const char *toEncrypt) const;
+
+    void setUsername(const char *username);
 };
 
-User::User(char *ipAddress, char *username,
-        char *password, char *title) :
-        Guest(ipAddress), username(username), title(title) {
-    this->password = encryptDecrypt(password);
-}
 
-char *User::getUsername() const {
-    return username;
-}
-
-char *User::getPassword() const {
-    return encryptDecrypt(password);
-}
-
-void User::changePassword(char* oldPass, char* newPass) {
-    if (strEquals(oldPass, encryptDecrypt(password))) {
-        password = encryptDecrypt(newPass);
-    } else {
-        std::cerr << "Incorrect old password!\n";
-    }
-}
-
-bool User::strEquals(char* str1, char* str2) {
-    while (*str1++ && *str2++) {
-        if (*str1 != *str2) {
-            return false;
-        }
-    }
-    return true;
-}
-
-//simple XOR encryption
-char * User::encryptDecrypt(char* toEncrypt) const {
-    const char key = '_';
-    while (*toEncrypt != '\0') {
-        *toEncrypt++ ^= key;
-        toEncrypt++;
-    }
-    return toEncrypt;
-}
-
-char *User::getTitle() const {
-    return title;
-}
-
-void User::setTitle(char *title) {
-    std::cerr << "Regular users can't change their title!\n";
-}
-
-#endif //PO3_LOGIN_SYSTEM_USER_H
+#endif //P03_LOGIN_SYSTEM_USER_H

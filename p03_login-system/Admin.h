@@ -1,34 +1,34 @@
 //
-// Created by zvezdomirov98 on 12.05.19.
+// Created by zvezdomirov98 on 17.05.19.
 //
 
-#ifndef PO3_LOGIN_SYSTEM_ADMIN_H
-#define PO3_LOGIN_SYSTEM_ADMIN_H
+#ifndef P03_LOGIN_SYSTEM_ADMIN_H
+#define P03_LOGIN_SYSTEM_ADMIN_H
 
-#include "PowerUser.h"
+
 #include "User.h"
+#include "PowerUser.h"
+#include "VIP.h"
 
-class Admin : public PowerUser {
+class Admin :
+        public VIP,
+        public PowerUser {
 public:
-    Admin(char *ipAddress, char *username, char *password, char *title, int reputation);
+    Admin(const char *ip_address = DEFAULT_IP,
+          const char *username = "",
+          const char *password = "",
+          const char *title = "",
+          int reputation = 0) :
+            PowerUser(ip_address,
+                      username,
+                      password,
+                      title,
+                      reputation) {};
 
-    void setUserName(char *_username);
-
-    void setExteriorUsername(User &user, char *newName);
+    void setUsername(const char *username,
+                     User &user);
+    void setUsername(const char *username);
 };
 
-Admin::Admin(char *ipAddress, char *username,
-        char *password, char *title, int reputation) :
-        PowerUser(ipAddress,
-           username,
-           password, title,
-           reputation) {}
 
-void Admin::setUserName(char* _username) {
-    username = _username;
-}
-
-void Admin::setExteriorUsername(User& user, char* newName) {
-    user.username = newName;
-}
-#endif //PO3_LOGIN_SYSTEM_ADMIN_H
+#endif //P03_LOGIN_SYSTEM_ADMIN_H

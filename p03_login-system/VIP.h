@@ -1,27 +1,24 @@
 //
-// Created by zvezdomirov98 on 12.05.19.
+// Created by zvezdomirov98 on 17.05.19.
 //
 
-#ifndef PO3_LOGIN_SYSTEM_VIP_H
-#define PO3_LOGIN_SYSTEM_VIP_H
+#ifndef P03_LOGIN_SYSTEM_VIP_H
+#define P03_LOGIN_SYSTEM_VIP_H
+
 
 #include "User.h"
 
-class VIP : public User {
+class VIP : public virtual User {
+
 public:
-    VIP(char *ipAddress, char *username, char *password, char *title);
+    VIP(const char *ip_address = "127.0.0.1",
+        const char *username = "",
+        const char *password = "",
+        const char *title = "") :
+            User(ip_address, username, password, title) {};
 
-protected:
-    void setTitle(char *title) override;
-
+    void changeTitle(const char *title);
 };
 
-VIP::VIP(char *ipAddress, char *username,
-        char *password, char *title) :
-        User(ipAddress, username, password, title) {}
 
-void VIP::setTitle(char *_title) {
-    title = _title;
-}
-
-#endif //PO3_LOGIN_SYSTEM_VIP_H
+#endif //P03_LOGIN_SYSTEM_VIP_H

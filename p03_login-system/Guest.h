@@ -1,30 +1,30 @@
 //
-// Created by zvezdomirov98 on 12.05.19.
+// Created by zvezdomirov98 on 17.05.19.
 //
 
-#ifndef PO3_LOGIN_SYSTEM_GUEST_H
-#define PO3_LOGIN_SYSTEM_GUEST_H
+#ifndef P03_LOGIN_SYSTEM_GUEST_H
+#define P03_LOGIN_SYSTEM_GUEST_H
 
 class Guest {
+
 public:
-    Guest(char *ipAddress);
+    Guest(const char *ip_address = DEFAULT_IP);
+
+    Guest(const Guest &); //copy constructor
+
+    Guest &operator=(const Guest &rhs);
+
+    virtual ~Guest();
 
     char *getIpAddress() const;
 
-    void setIpAddress(char *ipAddress);
+    void setIpAddress(const char *ip_address);
+
+protected:
+    constexpr static const char* const DEFAULT_IP = "127.0.0.1";
 
 private:
-    char* ipAddress;
+    char *m_ip_address;
 };
 
-Guest::Guest(char *ipAddress) : ipAddress(ipAddress) {}
-
-char *Guest::getIpAddress() const {
-    return ipAddress;
-}
-
-void Guest::setIpAddress(char *ipAddress) {
-    Guest::ipAddress = ipAddress;
-}
-
-#endif //PO3_LOGIN_SYSTEM_GUEST_H
+#endif //P03_LOGIN_SYSTEM_GUEST_H
