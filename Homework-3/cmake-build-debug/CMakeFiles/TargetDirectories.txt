@@ -1,3 +1,0 @@
-/home/zvezdomirov98/Software Developement/FMI-OOP-Course/Homework-3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/zvezdomirov98/Software Developement/FMI-OOP-Course/Homework-3/cmake-build-debug/CMakeFiles/Homework_3.dir
-/home/zvezdomirov98/Software Developement/FMI-OOP-Course/Homework-3/cmake-build-debug/CMakeFiles/edit_cache.dir
