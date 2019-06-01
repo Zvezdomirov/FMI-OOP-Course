@@ -35,14 +35,14 @@ void Environment::destroyEntities() {
 }
 
 Entity *Environment::getClosestAliveEntity(const Player &player,
-                                           EntityType &type) const {
+                                           EntityType type) const {
     std::shared_ptr<Entity> closest;
     double minDist = INT_FAST64_MAX;
 
     for (const auto &entity : m_entities) {
         double currentDist = entity->getDistanceTo(player);
 
-        if (entity->getType() == PLAYER &&
+        if (entity->getType() == type &&
             currentDist < minDist &&
             entity->isAlive()) {
 

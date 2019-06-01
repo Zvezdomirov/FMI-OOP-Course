@@ -5,21 +5,20 @@
 #include "Mob.h"
 
 int main() {
-//    Point2D p1(0,0);
-//    Point2D p2(3,4);
-//    std::cout << p2.getDistanceTo(p1) << std::endl;
+    Player player1("Player1", Point3D(1, 2, 3), 20, 10);
+    Environment *environment = &Environment::getInstance();
+    environment->add(Mob("Mob1", Point3D(2, 3, 4), 10, 5));
+    environment->add(Player("Player2", Point3D(-1, 2, 5), 15, 20));
+    environment->add(Mob("Mob2", Point3D(10, 2, 18), 25, 30));
 
-    Player player1("Player1", *(new Point3D(1, 2, 3)), 20, 10);
-    Environment* environment = &Environment::getInstance();
-    environment->add(*new Mob("Mob1", *new Point3D(2, 3, 4), 10, 5));
-    environment->add(*new Player("Player2", *new Point3D(-1, 2, 5), 15, 20));
-    environment->add(*new Mob("Mob2", *new Point3D(10, 2, 18), 25, 30));
-
-    for (int i = 0; environment->getAt(i) != nullptr; i++) {
-        if (environment->getAt(i)->getType() == EntityType::MOB) {
-            //TODO: Cast Entity to PlayableCharacter somehow
-//            player1.attack(*environment->getAt(i));
-        }
+    Mob *toAttack;
+    /*While there is an entity of type mob nearby,
+     * cast it to Mob* and pass it as attack
+     * parameter to player1*/
+    while ((toAttack = dynamic_cast<Mob *>(
+            environment->getClosestAliveEntity(
+                    player1, EntityType::MOB)))) {
+        player1.attack(*toAttack);
     }
     return 0;
 }

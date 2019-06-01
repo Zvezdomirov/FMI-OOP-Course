@@ -26,7 +26,7 @@ public:
     void destroyEntities();
 
     Entity *getClosestAliveEntity(const Player &player,
-            EntityType &type) const;
+                                  EntityType type) const;
 
     Environment(const Environment &) = delete;
 
