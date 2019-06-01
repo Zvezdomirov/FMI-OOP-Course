@@ -3,6 +3,7 @@
 //
 
 #include "Environment.h"
+#include "Mob.h"
 
 Environment *Environment::instance = nullptr;
 
@@ -13,8 +14,8 @@ Environment &Environment::getInstance() {
     return *instance;
 }
 
-void Environment::add(const Entity &entity) {
-    m_entities.push_back(std::make_shared<Entity>(entity));
+void Environment::add(const std::shared_ptr<Entity>& entity) {
+    m_entities.push_back(entity);
 }
 
 Entity *Environment::getAt(int index) const {
@@ -25,8 +26,16 @@ void Environment::removeAt(int index) {
     m_entities.erase(m_entities.begin() + index);
 }
 
-//TODO: Generate random number of different entities and add them
 void Environment::generateEntities() {
+    //The ugliest thing EVER, but it works and meets the homework conditions
+    std::shared_ptr<Mob> mob1 = std::make_shared<Mob>(Mob("Mob1", Point3D(2, 3, 4), 10, 5));
+    std::shared_ptr<Mob> mob2 = std::make_shared<Mob>(Mob("Mob2", Point3D(10, 20, 30), 25, 30));
+    std::shared_ptr<Player> player1 =
+            std::make_shared<Player>(Player("Player1", Point3D(-1, 2, 5), 15, 20));
+
+    this->add(player1->shared_from_this());
+    this->add(mob1->shared_from_this());
+    this->add(mob2->shared_from_this());
 
 }
 

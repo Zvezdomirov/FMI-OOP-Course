@@ -15,7 +15,7 @@ class Environment {
 public:
     static Environment &getInstance();
 
-    void add(const Entity &);
+    void add(const std::shared_ptr<Entity>&);
 
     Entity *getAt(int index) const;
 

@@ -9,8 +9,13 @@
 #include "Entity.h"
 
 class PlayableCharacter : public Entity {
+public:
+    bool isAlive() const override;
+
+    virtual bool attack(PlayableCharacter& target);
 protected:
     int m_damage;
+
     int m_health;
 
     PlayableCharacter(std::string name,
@@ -21,10 +26,6 @@ protected:
             Entity(std::move(name), location, type),
             m_damage(damage),
             m_health(health) {};
-
-    virtual bool isAlive() const override;
-
-    virtual bool attack(PlayableCharacter& target);
 };
 
 

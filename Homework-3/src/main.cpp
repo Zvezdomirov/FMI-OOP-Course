@@ -5,20 +5,26 @@
 #include "Mob.h"
 
 int main() {
-    Player player1("Player1", Point3D(1, 2, 3), 20, 10);
     Environment *environment = &Environment::getInstance();
-    environment->add(Mob("Mob1", Point3D(2, 3, 4), 10, 5));
-    environment->add(Player("Player2", Point3D(-1, 2, 5), 15, 20));
-    environment->add(Mob("Mob2", Point3D(10, 2, 18), 25, 30));
+
+    environment->generateEntities();
+    auto player1 = dynamic_cast<Player *>(environment->getAt(0));
 
     Mob *toAttack;
-    /*While there is an entity of type mob nearby,
+    /*While there is an alive entity of type Mob nearby,
      * cast it to Mob* and pass it as attack
-     * parameter to player1*/
+     * parameter to player1. If attacking is
+     * unsuccessful, it means that even the closest
+     * Mob is too far away, so we break the loop.
+     * */
     while ((toAttack = dynamic_cast<Mob *>(
             environment->getClosestAliveEntity(
-                    player1, EntityType::MOB)))) {
-        player1.attack(*toAttack);
+                    *player1, EntityType::MOB))) &&
+                    toAttack->isAlive()) {
+
+        if (!player1->attack(*toAttack)) {
+            break;
+        }
     }
     return 0;
 }

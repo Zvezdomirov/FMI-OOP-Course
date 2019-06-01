@@ -7,12 +7,11 @@
 
 
 #include <string>
+#include <memory>
 #include "Point3D.h"
 #include "EntityType.h"
 
-//TODO: Should be abstract class, but Environment can't access it...
-
-class Entity {
+class Entity : public std::enable_shared_from_this<Entity>{
 public:
     virtual bool isAlive() const { return true; };
 
@@ -36,7 +35,7 @@ public:
 
     EntityType getType() const;
 
-
+protected:
 
     Entity(std::string name,
            const Point3D &location,
@@ -53,6 +52,7 @@ private:
     int m_id;
     std::string m_name;
     Point3D *m_location;
+
     EntityType m_type;
 };
 
