@@ -7,3 +7,4 @@
 - homeworks
 	- Problem descriptions
 	- Problem solutions
+###### Descriptions are in Bulgarian, since that's how I receive them.
